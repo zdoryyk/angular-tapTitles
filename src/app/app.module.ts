@@ -7,15 +7,18 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
 import { MainLayoutComponent } from './shared/main-layout/main-layout.component';
-import { GamePageComponent } from './logined/game-page/game-page.component';
+import { GamePageComponent } from './logged-in/game-page/game-page.component';
 import {RouterLink, RouterOutlet} from "@angular/router";
 import {AppRoutingModule} from "./app-routing.module";
-import { AboutPageComponent } from './non-logined/about-page/about-page.component';
+import { AboutPageComponent } from './shared/about-page/about-page.component';
 import { LoginPageComponent } from './auth/login-page/login-page.component';
 import { RegisterPageComponent } from './auth/register-page/register-page.component';
 import {AuthInterceptor} from "./auth/auth.interceptor";
+import {JwtHelperService, JwtModule} from "@auth0/angular-jwt";
 
-
+export function tokenGetter() {
+  return localStorage.getItem("auth");
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,13 +37,19 @@ import {AuthInterceptor} from "./auth/auth.interceptor";
     RouterOutlet,
     AppRoutingModule,
     RouterLink,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ["localhost:8080"]
+      },
+    }),
   ],
   providers: [{
     provide:HTTP_INTERCEPTORS,
     useClass:AuthInterceptor,
     multi: true
-  }
+  },
   ],
   entryComponents:[],
   bootstrap: [AppComponent]

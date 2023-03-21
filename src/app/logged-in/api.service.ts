@@ -12,9 +12,6 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  get token(): string{
-    return ''
-  }
 
   login(player:Player): Observable<Player>{
     return this.http.post<Player>('http://localhost:8080/api/auth/login',player)
@@ -24,12 +21,12 @@ export class ApiService {
     return this.http.post<Player>('http://localhost:8080/api/auth/register',player)
   }
 
-
-  isAuthenticated(): boolean{
-    return false;
-  }
-
-  test():Observable<Player[]>{
+  getAllUsers():Observable<Player[]>{
     return this.http.get<Player[]>('http://localhost:8080/api/users/')
   }
+
+  getUserByEmail(email:String){
+
+  }
+
 }

@@ -7,6 +7,7 @@ import {LoginPageComponent} from "../auth/login-page/login-page.component";
 import {RegisterPageComponent} from "../auth/register-page/register-page.component";
 import {GamePageComponent} from "./game-page/game-page.component";
 import {IsAuthenticatedGuard} from "../auth/is-authenticated.guard";
+import {JwtModuleOptions} from "@auth0/angular-jwt";
 
 
 @NgModule({
@@ -15,11 +16,10 @@ import {IsAuthenticatedGuard} from "../auth/is-authenticated.guard";
     RouterModule.forChild([
       {
           path: '',component: ProfileLayoutComponent,children:[
-          {path:'',redirectTo: '/profile/login',pathMatch:'full'},
+          {path: '',component:ProfileComponent,canActivate:[IsAuthenticatedGuard]},
           {path: 'login',component:LoginPageComponent},
           {path: 'register',component:RegisterPageComponent},
           {path: 'game',component:GamePageComponent,canActivate:[IsAuthenticatedGuard]},
-          {path: 'profile',component:ProfileComponent,canActivate:[IsAuthenticatedGuard]}
         ]
       }
     ])
@@ -28,7 +28,7 @@ import {IsAuthenticatedGuard} from "../auth/is-authenticated.guard";
   declarations: [
     ProfileLayoutComponent,
     ProfileComponent
-  ]
+  ],
 })
 export class LoginModule{
 

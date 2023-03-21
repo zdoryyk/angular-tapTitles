@@ -5,7 +5,7 @@ import {
   HttpEvent,
   HttpInterceptor
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {catchError, Observable, throwError} from 'rxjs';
 import {AuthService} from "./auth.service";
 
 @Injectable()
@@ -20,6 +20,15 @@ export class AuthInterceptor implements HttpInterceptor {
       headers: request.headers.set('Authorization',`Bearer ${this.authService.token}`)
     })
 
-    return next.handle(request);
+    return next.handle(request).pipe(
+      catchError(error => {
+        if (error.status === 401 || error.status === 403 || error.status === 500 ) {
+          // Token expired, clear local storage and reload page
+          localStorage.removeItem('auth');
+          this.authService.logout()
+        }
+        return throwError(error);
+      })
+    );
   }
 }
