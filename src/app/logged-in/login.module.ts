@@ -7,28 +7,31 @@ import {LoginPageComponent} from "../auth/login-page/login-page.component";
 import {RegisterPageComponent} from "../auth/register-page/register-page.component";
 import {GamePageComponent} from "./game-page/game-page.component";
 import {IsAuthenticatedGuard} from "../auth/is-authenticated.guard";
-import {JwtModuleOptions} from "@auth0/angular-jwt";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
-  imports:[
+  imports: [
     CommonModule,
     RouterModule.forChild([
       {
-          path: '',component: ProfileLayoutComponent,children:[
-          {path: '',component:ProfileComponent,canActivate:[IsAuthenticatedGuard]},
-          {path: 'login',component:LoginPageComponent},
-          {path: 'register',component:RegisterPageComponent},
-          {path: 'game',component:GamePageComponent,canActivate:[IsAuthenticatedGuard]},
+           path: '', component: ProfileLayoutComponent, children: [
+          {path: '', component: ProfileComponent, canActivate: [IsAuthenticatedGuard]},
+          {path: 'login', component: LoginPageComponent},
+          {path: 'register', component: RegisterPageComponent},
+          {path: 'game', component: GamePageComponent, canActivate: [IsAuthenticatedGuard]},
         ]
       }
-    ])
+    ]),
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports:[RouterModule],
   declarations: [
     ProfileLayoutComponent,
-    ProfileComponent
+    ProfileComponent,
   ],
+  providers:[]
 })
 export class LoginModule{
 

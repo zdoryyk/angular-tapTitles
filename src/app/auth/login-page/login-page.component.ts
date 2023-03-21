@@ -5,6 +5,7 @@ import {Player} from "../../shared/interfaces";
 import {Router} from "@angular/router";
 import {AppComponent} from "../../app.component";
 import {BehaviorSubject, tap} from "rxjs";
+import {ProfileComponent} from "../../logged-in/profile/profile.component";
 
 @Component({
   selector: 'app-login-page',
@@ -18,7 +19,7 @@ export class LoginPageComponent implements OnInit{
 
   form: FormGroup
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(public authService: AuthService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -38,7 +39,6 @@ export class LoginPageComponent implements OnInit{
       password: this.form.value.password,
     }
     this.authService.login(player)
-
   }
 
 

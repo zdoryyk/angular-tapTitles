@@ -8,6 +8,7 @@ import {LoginPageComponent} from "./auth/login-page/login-page.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RegisterPageComponent} from "./auth/register-page/register-page.component";
 import {AppComponent} from "./app.component";
+import {ProfileComponent} from "./logged-in/profile/profile.component";
 const routes: Routes = [
     {path: '', component: MainLayoutComponent},
     {path: 'about', component: AboutPageComponent},

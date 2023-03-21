@@ -2,6 +2,8 @@ import {Component, OnInit} from "@angular/core";
 import {animate, AnimationEvent, keyframes, state, style, transition, trigger} from "@angular/animations";
 import {Player} from "./shared/interfaces";
 import {AuthService} from "./auth/auth.service";
+import {Router} from "@angular/router";
+import {ProfileComponent} from "./logged-in/profile/profile.component";
 
 
 
@@ -30,7 +32,7 @@ import {AuthService} from "./auth/auth.service";
         opacity: 0
       }))
     ])
-  ])]
+  ])],
 })
 export class AppComponent implements OnInit{
 
@@ -45,8 +47,11 @@ export class AppComponent implements OnInit{
     return this.isAuthed = !this.isAuthed
   }
   user: Player
-  constructor(public auth: AuthService) {
+  constructor(public auth: AuthService,private router: Router) {
 
   }
 
+  navigateToProfile() {
+
+  }
 }

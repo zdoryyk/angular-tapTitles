@@ -15,6 +15,9 @@ import { LoginPageComponent } from './auth/login-page/login-page.component';
 import { RegisterPageComponent } from './auth/register-page/register-page.component';
 import {AuthInterceptor} from "./auth/auth.interceptor";
 import {JwtHelperService, JwtModule} from "@auth0/angular-jwt";
+import {ProfileComponent} from "./logged-in/profile/profile.component";
+import {AuthService} from "./auth/auth.service";
+import {CommonModule} from "@angular/common";
 
 export function tokenGetter() {
   return localStorage.getItem("auth");

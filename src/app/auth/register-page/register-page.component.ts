@@ -14,7 +14,7 @@ export class RegisterPageComponent implements OnInit{
   passwordForm: FormGroup
   player: Player
 
-  constructor(private authService: AuthService) {
+  constructor(public authService: AuthService) {
   }
 
   ngOnInit(): void {

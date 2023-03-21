@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {BehaviorSubject, Observable, tap} from "rxjs";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {BehaviorSubject, catchError, Observable, Subject, tap, throwError} from "rxjs";
 import {Player} from "../shared/interfaces";
 import {ApiService} from "../logged-in/api.service";
 import {Router} from "@angular/router";
 import { JwtHelperService } from '@auth0/angular-jwt';
+import {ProfileComponent} from "../logged-in/profile/profile.component";
+import {AppRoutingModule} from "../app-routing.module";
+import {LoginModule} from "../logged-in/login.module";
+import {ERROR} from "@angular/compiler-cli/src/ngtsc/logging/src/console_logger";
 
 
 @Injectable({
@@ -12,6 +16,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 })
 export class AuthService {
 
+  public error$: Subject<string> = new Subject<string>()
   public readonly TOKEN_NAME = 'auth'
   player: Player
   private _isLoggedIn = new BehaviorSubject<boolean>(false)
@@ -23,7 +28,7 @@ export class AuthService {
     }
 
 
-    constructor(private apiService: ApiService,private router: Router,private jwtHelper: JwtHelperService ) {
+    constructor(private apiService: ApiService,private router: Router,private jwtHelper: JwtHelperService) {
        this._isLoggedIn.next(!!this.token)
     }
 
@@ -35,8 +40,27 @@ export class AuthService {
           if(!!response.token) {
             this.router.navigate(['/profile'])
           }
-        })
+        }),
+        // @ts-ignore
+        catchError(this.handleError.bind(this))
       ).subscribe()
+    }
+
+    private handleError(error:HttpErrorResponse){
+      console.log(error.error.message);
+      const m = error.error.message
+      switch (m){
+        case 'THIS_EMAIL_TAKEN':
+          this.error$.next('This email taken')
+          break
+        case 'THIS_USERNAME_TAKEN':
+          this.error$.next('This username taken')
+          break
+        default:
+          this.error$.next('Incorrect email or password')
+          break
+      }
+      return throwError(error)
     }
 
     register(player: Player){
@@ -48,7 +72,7 @@ export class AuthService {
           if(!!response.token) {
             this.router.navigate(['/profile'])
           }
-        })
+        }),catchError(this.handleError.bind(this))
       ).subscribe()
     }
 
