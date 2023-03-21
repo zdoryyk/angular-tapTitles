@@ -1,0 +1,54 @@
+<div class="container">
+  <form class="login-form" [formGroup]="form" (ngSubmit)="submit()">
+    <h1>Register</h1>
+
+    <div class="form-control">
+      <label for="username">Username</label>
+      <input type="text" id="username" formControlName="username">
+      <div
+        class="validation"
+        *ngIf="form.get('username')?.['touched'] && form.get('username')?.['invalid']"
+      >
+        <small *ngIf="form.get('username')?.['errors']?.['required']">write your username</small>
+      </div>
+    </div>
+
+    <div class="form-control">
+      <label for="email">Email</label>
+      <input type="email" id="email" formControlName="email">
+      <div
+        class="validation"
+        *ngIf="form.get('email')?.['touched'] && form.get('email')?.['invalid']"
+      >
+        <small *ngIf="form.get('email')?.['errors']?.['required']">write your email</small>
+      </div>
+    </div>
+
+    <div class="form-control">
+      <label for="password">Password</label>
+      <input type="password" id="password" formControlName="password">
+      <div class="validation"
+           *ngIf="form.get('password')?.['touched'] && form.get('password')?.['invalid']"
+      >
+        <small *ngIf="form.get('password')?.['errors']?.['required']">write password</small>
+      </div>
+    </div>
+
+    <div class="form-control">
+      <label for="confirmPassword">Confirm Password</label>
+      <input type="password" id="confirmPassword" formControlName="confirmPassword">
+      <div class="validation"
+           *ngIf="form.get('confirmPassword')?.['touched'] && form.get('password')?.['invalid']"
+      >
+        <small *ngIf="form.get('confirmPassword')?.['errors']?.['required']">write Confirm password</small>
+      </div>
+    </div>
+
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="form.invalid"
+      >Register</button>
+  </form>
+
+</div>
