@@ -13,6 +13,7 @@ import {AppRoutingModule} from "./app-routing.module";
 import { AboutPageComponent } from './non-logined/about-page/about-page.component';
 import { LoginPageComponent } from './auth/login-page/login-page.component';
 import { RegisterPageComponent } from './auth/register-page/register-page.component';
+import {AuthInterceptor} from "./auth/auth.interceptor";
 
 
 @NgModule({
@@ -35,7 +36,12 @@ import { RegisterPageComponent } from './auth/register-page/register-page.compon
     RouterLink,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [{
+    provide:HTTP_INTERCEPTORS,
+    useClass:AuthInterceptor,
+    multi: true
+  }
+  ],
   entryComponents:[],
   bootstrap: [AppComponent]
 })

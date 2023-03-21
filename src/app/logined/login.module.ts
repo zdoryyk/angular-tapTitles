@@ -6,6 +6,7 @@ import { ProfileComponent } from './profile/profile.component';
 import {LoginPageComponent} from "../auth/login-page/login-page.component";
 import {RegisterPageComponent} from "../auth/register-page/register-page.component";
 import {GamePageComponent} from "./game-page/game-page.component";
+import {IsAuthenticatedGuard} from "../auth/is-authenticated.guard";
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import {GamePageComponent} from "./game-page/game-page.component";
           {path:'',redirectTo: '/profile/login',pathMatch:'full'},
           {path: 'login',component:LoginPageComponent},
           {path: 'register',component:RegisterPageComponent},
-          {path: 'game',component:GamePageComponent}
+          {path: 'game',component:GamePageComponent,canActivate:[IsAuthenticatedGuard]},
+          {path: 'profile',component:ProfileComponent,canActivate:[IsAuthenticatedGuard]}
         ]
       }
     ])

@@ -9,15 +9,18 @@
     <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
       <a [routerLink]="['/']">Home</a>
     </li>
-    <li *ngIf="isAuthed"><a  routerLinkActive="active"  [routerLink]= "['/profile']">Profile</a></li>
-    <li *ngIf="isAuthed"><a  routerLinkActive="active"  [routerLink]= "['/profile/game']"> Game</a></li>
+    <li *ngIf="auth.isLoggedIn$ | async"><a  routerLinkActive="active"  [routerLink]= "['/profile']">Profile</a></li>
+    <li *ngIf="auth.isLoggedIn$ | async"><a  routerLinkActive="active"  [routerLink]= "['/profile/game']"> Game</a></li>
     <li><a  routerLinkActive="active"  [routerLink]= "['/about']"> About</a></li>
-    <li *ngIf="!isAuthed"><button routerLinkActive="active" class="btn" [routerLink]="['/profile']">Login</button></li>
-    <li *ngIf="isAuthed"><button routerLinkActive="active" class="btn" routerLink="#">Logout</button></li>
+    <li *ngIf="(auth.isLoggedIn$ | async);else Login"><button routerLinkActive="active" class="btn" (click)="auth.Logout()">Logout</button></li>
   </ul>
 </nav>
-
+<!--<app-game-page *ngIf="auth.isLoggedIn$ | async"></app-game-page>-->
 <router-outlet></router-outlet>
+
+<ng-template #Login>
+  <li><button routerLinkActive="active" class="btn" [routerLink]="['/profile']">Login</button></li>
+</ng-template>
 
 
 

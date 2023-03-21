@@ -1,7 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import {animate, AnimationEvent, keyframes, state, style, transition, trigger} from "@angular/animations";
 import {Player} from "./shared/interfaces";
-import {AuthServiceService} from "./auth/auth-service.service";
+import {AuthService} from "./auth/auth.service";
 
 
 
@@ -45,7 +45,7 @@ export class AppComponent implements OnInit{
     return this.isAuthed = !this.isAuthed
   }
   user: Player
-  constructor(public auth: AuthServiceService) {
+  constructor(public auth: AuthService) {
 
   }
 
