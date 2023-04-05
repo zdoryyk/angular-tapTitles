@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {BehaviorSubject, catchError, Observable, Subject, tap, throwError} from "rxjs";
+import {async, BehaviorSubject, catchError, Observable, Subject, tap, throwError} from "rxjs";
 import {Player} from "../shared/interfaces";
 import {ApiService} from "../logged-in/api.service";
 import {Router} from "@angular/router";
@@ -17,19 +17,18 @@ import {ERROR} from "@angular/compiler-cli/src/ngtsc/logging/src/console_logger"
 export class AuthService {
 
   public error$: Subject<string> = new Subject<string>()
-  public readonly TOKEN_NAME = 'auth'
-  player: Player
   private _isLoggedIn = new BehaviorSubject<boolean>(false)
   isLoggedIn$ = this._isLoggedIn.asObservable();
+  _isAdmin$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
   private temp = false;
 
     get token(){
       return localStorage.getItem('auth')
     }
 
-
     constructor(private apiService: ApiService,private router: Router,private jwtHelper: JwtHelperService) {
-       this._isLoggedIn.next(!!this.token)
+      this._isLoggedIn.next(!!this.token)
     }
 
     login(player:Player){
@@ -46,29 +45,11 @@ export class AuthService {
       ).subscribe()
     }
 
-    private handleError(error:HttpErrorResponse){
-      console.log(error.error.message);
-      const m = error.error.message
-      switch (m){
-        case 'THIS_EMAIL_TAKEN':
-          this.error$.next('This email taken')
-          break
-        case 'THIS_USERNAME_TAKEN':
-          this.error$.next('This username taken')
-          break
-        default:
-          this.error$.next('Incorrect email or password')
-          break
-      }
-      return throwError(error)
-    }
-
     register(player: Player){
       return this.apiService.register(player).pipe(
         tap((response:any) => {
           this._isLoggedIn.next(true);
           localStorage.setItem('auth', response.token);
-          console.log(response.token)
           if(!!response.token) {
             this.router.navigate(['/profile'])
           }
@@ -76,14 +57,28 @@ export class AuthService {
       ).subscribe()
     }
 
+    _isAdmin(): Observable<boolean> {
+      if(this._decodedToken$() != null) {
+        this._isAdmin$.next(this._decodedToken$().role == 'ROLE_ADMIN');
+      } else {
+        this._isAdmin$.next(false);
+      }
+      return this._isAdmin$.asObservable();
+    }
+
+    getIdFromToken():number{
+      return this._decodedToken$().id
+    }
+
     logout(){
       localStorage.clear()
-      window.location.reload()
+      this._isLoggedIn.next(false)
     }
 
     _decodedToken$(){
       return this.jwtHelper.decodeToken(localStorage.getItem('auth') as string)
     }
+
 
     _loggedIn$(){
       const token = localStorage.getItem('auth')
@@ -94,4 +89,19 @@ export class AuthService {
       return !this.jwtHelper.isTokenExpired(token)
     }
 
+  private handleError(error:HttpErrorResponse){
+    const m = error.error.message
+    switch (m){
+      case 'THIS_EMAIL_TAKEN':
+        this.error$.next('This email taken')
+        break
+      case 'THIS_USERNAME_TAKEN':
+        this.error$.next('This username taken')
+        break
+      default:
+        this.error$.next('Incorrect email or password')
+        break
+    }
+    return throwError(error)
+  }
 }

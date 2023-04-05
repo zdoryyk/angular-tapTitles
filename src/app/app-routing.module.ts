@@ -13,7 +13,8 @@ const routes: Routes = [
     {path: '', component: MainLayoutComponent},
     {path: 'about', component: AboutPageComponent},
 
-  {path: 'profile',loadChildren: () => import('./logged-in/login.module').then(x => x.LoginModule)}
+  {path: 'profile',loadChildren: () => import('./logged-in/login.module').then(x => x.LoginModule)},
+  {path: 'admin',loadChildren: () => import('./auth/admin/admin.module').then(x => x.AdminModule)}
 ]
 
 @NgModule({

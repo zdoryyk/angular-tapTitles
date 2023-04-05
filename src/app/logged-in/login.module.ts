@@ -8,6 +8,8 @@ import {RegisterPageComponent} from "../auth/register-page/register-page.compone
 import {GamePageComponent} from "./game-page/game-page.component";
 import {IsAuthenticatedGuard} from "../auth/is-authenticated.guard";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {AdminLayoutComponent} from "../auth/admin/admin-layout/admin-layout.component";
+import {RoleGuard} from "../auth/role.guard";
 
 
 @NgModule({
@@ -21,7 +23,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
           {path: 'register', component: RegisterPageComponent},
           {path: 'game', component: GamePageComponent, canActivate: [IsAuthenticatedGuard]},
         ]
-      }
+      },
     ]),
     FormsModule,
     ReactiveFormsModule

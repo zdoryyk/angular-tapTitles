@@ -1,9 +1,7 @@
 
-
-
 <nav class="navbar">
   <h1>
-    <a [routerLink]="['/']"  [@tapTitleTrigger]="shimmer">Tap Titles</a>
+    <a [routerLink]="['/']" [@tapTitleTrigger]="shimmer">Tap Titles</a>
   </h1>
   <ul>
     <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
@@ -12,7 +10,7 @@
     <li *ngIf="auth.isLoggedIn$ | async"><a  routerLinkActive="active"  [routerLink]= "['/profile']">Profile</a></li>
     <li *ngIf="auth.isLoggedIn$ | async"><a  routerLinkActive="active"  [routerLink]= "['/profile/game']"> Game</a></li>
     <li><a  routerLinkActive="active"  [routerLink]= "['/about']">About</a></li>
-    <li *ngIf="(auth.isLoggedIn$ | async);else Login"><button routerLinkActive="active" class="btn" (click)="auth.logout()">Logout</button></li>
+    <li *ngIf="(auth.isLoggedIn$ | async);else Login"><button routerLinkActive="active" class="btn" (click)="logout($event)">Logout</button></li>
   </ul>
 </nav>
 <router-outlet></router-outlet>
@@ -20,6 +18,7 @@
 <ng-template #Login>
   <li><button routerLinkActive="active" class="btn" [routerLink]="['/profile']">Login</button></li>
 </ng-template>
+
 
 
 

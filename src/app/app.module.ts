@@ -18,6 +18,7 @@ import {JwtHelperService, JwtModule} from "@auth0/angular-jwt";
 import {ProfileComponent} from "./logged-in/profile/profile.component";
 import {AuthService} from "./auth/auth.service";
 import {CommonModule} from "@angular/common";
+import { AdminLayoutComponent } from './auth/admin/admin-layout/admin-layout.component';
 
 export function tokenGetter() {
   return localStorage.getItem("auth");
@@ -30,6 +31,7 @@ export function tokenGetter() {
     AboutPageComponent,
     LoginPageComponent,
     RegisterPageComponent,
+    AdminLayoutComponent,
   ],
   imports: [
     BrowserModule,

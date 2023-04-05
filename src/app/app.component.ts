@@ -4,6 +4,7 @@ import {Player} from "./shared/interfaces";
 import {AuthService} from "./auth/auth.service";
 import {Router} from "@angular/router";
 import {ProfileComponent} from "./logged-in/profile/profile.component";
+import {tap} from "rxjs";
 
 
 
@@ -47,11 +48,17 @@ export class AppComponent implements OnInit{
     return this.isAuthed = !this.isAuthed
   }
   user: Player
-  constructor(public auth: AuthService,private router: Router) {
+  constructor(public auth: AuthService, public router: Router) {
 
   }
 
   navigateToProfile() {
 
+  }
+
+  logout($event: Event) {
+    $event.preventDefault()
+    this.router.navigate(['/profile', 'login'])
+    this.auth.logout()
   }
 }

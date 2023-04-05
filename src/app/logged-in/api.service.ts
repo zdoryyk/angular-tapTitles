@@ -4,7 +4,6 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -33,7 +32,21 @@ export class ApiService {
       let playerToSend: PlayerToSend = {
         email: email
       }
-    return this.http.post<Player>(`${this.API_USERS}/user`,playerToSend)
+    return this.http.post<Player>(`${this.API_USERS}/user/email`,playerToSend)
+  }
+
+  getUserById(id: number): Observable<Player>{
+    let playerToSend: PlayerToSend = {
+      id: id
+    }
+    return this.http.post<Player>(`${this.API_USERS}/user/id`,playerToSend)
+  }
+
+  deleteUser(email: string): Observable<any> {
+    let playerToSend: PlayerToSend = {
+      email: email
+    }
+    return this.http.delete(`${this.API_USERS}/user/delete`, { body: playerToSend });
   }
 
 }

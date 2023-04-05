@@ -1,1 +1,71 @@
-<p>game-page works!</p>
+<div class="game-container">
+  <div class="game-board">
+    <div class="game-buttons">
+      <button class="game-button" (click)="onReplay()" >
+        Replay
+      </button>
+      <button class="game-button" (click)="onUndo()">
+        Undo
+      </button>
+    </div>
+
+    <div class="score-board" >
+      <span class="score-label">Score:</span>
+      <span
+        class="score-value"
+        [@score]="animationState"
+        [ngStyle]="{'color': (score > temp? 'blue' : 'red')}"
+      >
+        {{score}}
+      </span>
+    </div>
+    <div class="game-row" *ngFor="let row of board" [@animationRow]="true">
+      <div class="game-cell"
+           *ngFor="let tile of row; let i = index;"
+           [@zoomAnimation]="tile.highlighted"
+           [ngStyle]="getWindow()"
+
+      >
+
+        <button class="play-button"
+                [ngStyle]="getTileStyles(tile)"
+                (mouseover)="onMouseOver(tile)"
+                (mouseleave)="onMouseLeave(tile)"
+                (mousedown)="onMouseDown(tile)"
+                [disabled]="tile.disabled"
+                [@deleteAnimation]="tile.disabled"
+        >
+          {{tile.value}}
+        </button>
+      </div>
+    </div>
+    <div class="level-selection">
+      <button
+        class="level-button level-active"
+        *ngFor="let item of [].constructor(5); index as i"
+        (click)="getLevel(i + 1)"
+        [ngStyle]="{'background-color': (i + 1 === level ? '#ff6600' : '#4d4d4d')}"
+      >{{i + 1}}
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="scores-table">
+  <table>
+    <thead>
+    <tr>
+      <th>Player</th>
+      <th>Score</th>
+      <th>Played</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let score of scores.reverse()">
+      <td>You</td>
+      <td>{{score.points}}</td>
+      <td>{{score.playedOn | date}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

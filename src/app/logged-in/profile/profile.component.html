@@ -1,5 +1,4 @@
-
-<div class="container">
+<div class="container" *ngIf="user.id != null">
   <div class="main-body">
     <div class="row">
       <div class="col-lg-4">
@@ -7,11 +6,10 @@
           <div class="card-body">
             <div class="d-flex flex-column align-items-center text-center">
               <div class="mt-3">
-                <h1>{{user.username}}</h1>
+                <h1 [ngStyle]="{'color': rating != null ? '#ff9900' : null}">{{user.username | uppercase}}</h1>
                 <p class="text-secondary mb-1">{{user.email}}</p>
                 <p class="text-muted font-size-sm">since {{user.created_on | date}}</p>
-                <button class="btn btn-dark" (click)="setPlayer()">Follow</button>
-                <button class="btn btn-outline-primary">Message</button>
+                <button class="btn btn-light" *ngIf="user.isAdmin" (click)="routeToAdminPage()">ADMIN</button>
               </div>
             </div>
           </div>
@@ -22,58 +20,80 @@
           <div class="card-body">
             <div class="row mb-3">
               <div class="col-sm-3">
-                <h6 class="mb-0">Full Name</h6>
-              </div>
-              <div class="col-sm-9 text-secondary">
-                <input type="text" class="form-control" >
+<!--                <h6 class="mb-0">Full Name</h6>-->
+<!--              </div>-->
+<!--              <div class="col-sm-9 text-secondary">-->
+<!--                <input type="text" class="form-control" >-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="row mb-3">-->
+<!--              <div class="col-sm-3">-->
+<!--                <h6 class="mb-0">Email</h6>-->
+<!--              </div>-->
+<!--              <div class="col-sm-9 text-secondary">-->
+<!--                <input type="text" class="form-control">-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="row">-->
+<!--              <div class="col-sm-3"></div>-->
+<!--              <div class="col-sm-9 text-secondary">-->
+<!--                <input type="button" class="btn btn-dark px-4" value="Save Changes">-->
               </div>
             </div>
-            <div class="row mb-3">
-              <div class="col-sm-3">
-                <h6 class="mb-0">Email</h6>
-              </div>
-              <div class="col-sm-9 text-secondary">
-                <input type="text" class="form-control" value="john@example.com">
-              </div>
+            <div></div>
+            <div class="points">
+              <h2>Rating</h2>
+              <p *ngIf="rating != null;else noRating">You have <span class="points-count">{{rating.rating}}</span> points!</p>
+            <button class="play-button" routerLink="/profile/game">Play now!</button>
             </div>
-            <div class="row">
-              <div class="col-sm-3"></div>
-              <div class="col-sm-9 text-secondary">
-                <input type="button" class="btn btn-dark px-4" value="Save Changes">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-12">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="d-flex align-items-center mb-3">Project Status</h5>
-                <p>Web Design</p>
-                <div class="progress mb-3" style="height: 5px">
-                  <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+            <div *ngIf="scores.length">
+              <h1>Scores</h1>
+              <div class="post" *ngFor="let score of scores">
+                <hr>
+                <div class="header">
                 </div>
-                <p>Website Markup</p>
-                <div class="progress mb-3" style="height: 5px">
-                  <div class="progress-bar bg-danger" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="info" >
+                  <small>{{score.playedOn | date}}</small>
                 </div>
-                <p>One Page</p>
-                <div class="progress mb-3" style="height: 5px">
-                  <div class="progress-bar bg-success" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <p>Mobile Template</p>
-                <div class="progress mb-3" style="height: 5px">
-                  <div class="progress-bar bg-warning" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <p>Backend API</p>
-                <div class="progress" style="height: 5px">
-                  <div class="progress-bar bg-info" role="progressbar" style="width: 66%" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
+                <div>
+                  <p>score: {{score.points}}</p>
                 </div>
               </div>
             </div>
+<!--            COMMENTS-->
+            <div *ngIf="comments.length">
+              <h1>Comments</h1>
+              <div class="post" *ngFor="let comment of comments">
+                <hr>
+                <div class="header">
+                </div>
+                <div class="info" >
+                  <small>{{comment.commentedOn | date}}</small>
+                </div>
+                <div>
+                  <p>{{comment.comment}}</p>
+                </div>
+              </div>
+            </div>
+<!--       Comments  -->
+<!--       SCORES    -->
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+
+
+<ng-template #noRating>
+  <p>No Rating Yet</p>
+</ng-template>
+
+
+
+<!--<div class="points">-->
+<!--  <h2>Points</h2>-->
+<!--  <p>You have <span class="points-count">100</span> points!</p>-->
+<!--<button class="play-button">Play now!</button>-->
+<!--</div>-->
