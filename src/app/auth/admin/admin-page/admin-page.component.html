@@ -1,0 +1,44 @@
+  <div class="form-control">
+    <input type="text" placeholder="find user...">
+  </div>
+  <div>
+    <div>
+    <table>
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>Username</th>
+        <th>email</th>
+        <th>created</th>
+        <th>do</th>
+        <th>Delete</th>
+      </tr>
+      </thead>
+
+      <tbody *ngFor="let user of users; let idx = index">
+      <tr>
+          <td>{{idx + 1}}</td>
+          <td>{{user.username}}</td>
+          <td>{{user.email}}</td>
+          <td>{{user.created_on | date}}</td>
+          <td>
+            <button
+              class="btn btn-link open"
+              (click)="goToUser(user.id!,user.email!)"
+            >
+              Open
+            </button>
+          </td>
+          <td>
+            <a (click)="deleteUser(user.email)">Delete</a>
+          </td>
+      </tr>
+      <div class="btn-light">
+      </div>
+      </tbody>
+    </table>
+  </div>
+  </div>
+
+
+
