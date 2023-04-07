@@ -22,10 +22,10 @@ import {
 })
 export class GamePageComponent implements OnInit{
 
-  level:number = 1
   private readonly $id:number
   private columns:number
   private rows:number
+  level:number = 1
   tempArray: string[][] = []
   board: Tile[][] = []
   steps: Tile[] = []
@@ -142,9 +142,12 @@ export class GamePageComponent implements OnInit{
     }
   }
 
-  onReplay(){
-    this.initBoard()
-  }
+   async onReplay(){
+      this.steps = []
+      this.scoreSteps = []
+      await this.service.regenerateField(this.tempArray)
+      this.initBoard()
+   }
 
   getLevel(level: number){
     this.level = level

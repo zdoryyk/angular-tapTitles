@@ -50,4 +50,9 @@ export class GameApiService {
     return this.http.post<Score[]>(`${this.scoreUrl}/user-score`,user,{headers})
   }
 
+  postReplayedArray(array: string[][]):Observable<any>{
+    const wrapper = { array: array };
+    return this.http.post(`${this.gameUrl}/regenerate-field`,wrapper)
+  }
+
 }

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {GameApiService} from "./game-api.service";
-import {PlayerToSend, Score, ScoreToSend, Tile, Tiles} from "../../shared/interfaces";
+import {PlayerToSend, ScoreToSend, Tile, Tiles} from "../../shared/interfaces";
 import {firstValueFrom, Observable} from "rxjs";
 
 
@@ -58,6 +58,12 @@ export class GameService {
         id: id
       }
       return await firstValueFrom(this.api.getUserScores(user))
+    }
+
+    regenerateField(array: string[][]){
+      this.api.postReplayedArray(array).subscribe(response => {
+        console.log(response)
+      })
     }
 
     isGameActive(board: Tile[][]): boolean{
