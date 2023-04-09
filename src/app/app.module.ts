@@ -15,10 +15,13 @@ import { LoginPageComponent } from './auth/login-page/login-page.component';
 import { RegisterPageComponent } from './auth/register-page/register-page.component';
 import {AuthInterceptor} from "./auth/auth.interceptor";
 import {JwtHelperService, JwtModule} from "@auth0/angular-jwt";
-import {ProfileComponent} from "./logged-in/profile/profile.component";
-import {AuthService} from "./auth/auth.service";
-import {CommonModule} from "@angular/common";
 import { AdminLayoutComponent } from './auth/admin/admin-layout/admin-layout.component';
+import {
+  FacebookLoginProvider,
+  GoogleLoginProvider, GoogleSigninButtonModule,
+  SocialAuthServiceConfig,
+  SocialLoginModule
+} from "@abacritt/angularx-social-login";
 
 export function tokenGetter() {
   return localStorage.getItem("auth");
@@ -43,18 +46,37 @@ export function tokenGetter() {
     AppRoutingModule,
     RouterLink,
     BrowserAnimationsModule,
+    SocialLoginModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
         allowedDomains: ["localhost:8080"]
       },
     }),
+    GoogleSigninButtonModule,
   ],
   providers: [{
     provide:HTTP_INTERCEPTORS,
     useClass:AuthInterceptor,
     multi: true
   },
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              '1015737356466-4qdcqtiu68bisb5o4lt929bahgt29e94.apps.googleusercontent.com'
+            )
+          }
+        ],
+        onError: (err) => {
+          console.error(err);
+        }
+      } as SocialAuthServiceConfig,
+    }
   ],
   entryComponents:[],
   bootstrap: [AppComponent]

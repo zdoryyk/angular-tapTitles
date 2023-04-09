@@ -1,25 +1,30 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../auth.service";
 import {Player} from "../../shared/interfaces";
 import {Router} from "@angular/router";
-import {AppComponent} from "../../app.component";
-import {BehaviorSubject, tap} from "rxjs";
-import {ProfileComponent} from "../../logged-in/profile/profile.component";
+import {BehaviorSubject, Subject, Subscription, take, tap} from "rxjs";
+import {SocialAuthService} from "@abacritt/angularx-social-login";
+import { Observable, interval } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss']
 })
-export class LoginPageComponent implements OnInit{
+export class LoginPageComponent implements OnInit,OnDestroy{
 
   private _isLoggedIn = new BehaviorSubject<boolean>(false)
   isLoggedIn$ = this._isLoggedIn.asObservable();
 
   form: FormGroup
+  user: Player
+  private authSubscription: Subscription;
+  notifier = new Subject()
 
-  constructor(public authService: AuthService, private router: Router) {
+
+  constructor(public authService: AuthService, private router: Router,private googleService: SocialAuthService) {
   }
 
   ngOnInit(): void {
@@ -27,8 +32,24 @@ export class LoginPageComponent implements OnInit{
       password: new FormControl(null,[Validators.required,Validators.nullValidator]),
       email: new FormControl(null, [Validators.required,Validators.email])
     })
+
+      this.googleService.authState.pipe(takeUntil(this.notifier)).subscribe(response => {
+        if(!this.user){
+          this.user = {
+            email: ""
+          }
+        }
+        this.user.email = response.email
+        this.googleSubmit()
+      })
+
   }
 
+
+
+   googleSubmit(){
+    this.authService.login(this.user)
+  }
 
   submit() {
     if(this.form.invalid){
@@ -42,10 +63,13 @@ export class LoginPageComponent implements OnInit{
   }
 
 
-
-
-
   redirectToRegPage() {
     this.router.navigate(['profile/register'])
   }
+
+  ngOnDestroy(): void {
+    this.notifier.next(false)
+    this.notifier.complete()
+  }
+
 }

@@ -32,6 +32,7 @@ export class AuthService {
     }
 
     login(player:Player){
+      console.log(player)
       this.apiService.login(player).pipe(
         tap((response:any) => {
           this._isLoggedIn.next(true);
@@ -70,9 +71,11 @@ export class AuthService {
       return this._decodedToken$().id
     }
 
-    logout(){
-      localStorage.clear()
-      this._isLoggedIn.next(false)
+    async logout(){
+      console.log(123)
+      await window.location.reload()
+      await localStorage.clear()
+      await this._isLoggedIn.next(false)
     }
 
     _decodedToken$(){

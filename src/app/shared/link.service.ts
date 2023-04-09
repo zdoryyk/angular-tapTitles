@@ -1,7 +1,6 @@
 import {Injectable, OnInit} from '@angular/core';
-import {ApiService} from "../logged-in/api.service";
-import {Router} from "@angular/router";
 import {AuthService} from "../auth/auth.service";
+import {Player} from "./interfaces";
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +8,7 @@ import {AuthService} from "../auth/auth.service";
 export class LinkService implements OnInit{
 
   private email: string
+  public player: Player
   constructor(private auth:AuthService) { }
 
   ngOnInit(): void {
@@ -24,6 +24,14 @@ export class LinkService implements OnInit{
 
   returnUsersId(){
     return this.auth.getIdFromToken();
+  }
+
+  async setPlayer(player: Player){
+    this.player = player
+  }
+
+  getUser(){
+    return this.player
   }
 
 

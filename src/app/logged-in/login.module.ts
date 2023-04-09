@@ -1,5 +1,5 @@
 import {NgModule} from "@angular/core";
-import {CommonModule} from "@angular/common";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {RouterModule} from "@angular/router";
 import { ProfileLayoutComponent } from './profile-layout/profile-layout.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -17,7 +17,7 @@ import {RoleGuard} from "../auth/role.guard";
     CommonModule,
     RouterModule.forChild([
       {
-           path: '', component: ProfileLayoutComponent, children: [
+        path: '', component: ProfileLayoutComponent, children: [
           {path: '', component: ProfileComponent, canActivate: [IsAuthenticatedGuard]},
           {path: 'login', component: LoginPageComponent},
           {path: 'register', component: RegisterPageComponent},
@@ -26,7 +26,8 @@ import {RoleGuard} from "../auth/role.guard";
       },
     ]),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgOptimizedImage
   ],
   exports:[RouterModule],
   declarations: [

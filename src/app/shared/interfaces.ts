@@ -6,6 +6,7 @@ export interface Player{
   password?: string
   created_on?: Date
   isAdmin?: boolean
+  photoUrl?: string
 }
 
 

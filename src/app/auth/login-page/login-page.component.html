@@ -1,12 +1,19 @@
-
-
-<div class="container">
+<div class="container" xmlns="http://www.w3.org/1999/html">
   <div class="alert alert-dark" *ngIf="authService.error$ | async as error">
     {{error}}
   </div>
   <form class="login-form" [formGroup]="form" (ngSubmit)="submit()">
     <h1>Login</h1>
-
+     <button class="btn">
+      <asl-google-signin-button
+        text="continue_with"
+        type="standard"
+        size="medium"
+        theme="outline"
+        shape="circle"
+        width="400"
+      ></asl-google-signin-button>
+    </button>
     <div class="form-control">
       <label for="email">Email</label>
       <input type="email" id="email" formControlName="email">
@@ -38,3 +45,4 @@
   </form>
 
 </div>
+

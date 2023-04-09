@@ -52,13 +52,9 @@ export class AppComponent implements OnInit{
 
   }
 
-  navigateToProfile() {
-
-  }
-
-  logout($event: Event) {
-    $event.preventDefault()
-    this.router.navigate(['/profile', 'login'])
-    this.auth.logout()
+  async logout($event: Event) {
+    await $event.preventDefault()
+    await this.auth.logout()
+    await this.router.navigate(['/profile/login'])
   }
 }
