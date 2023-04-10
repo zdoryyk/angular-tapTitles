@@ -12,7 +12,7 @@ const routes: Routes = [
     {path: '', component: MainLayoutComponent,children: [{
         path: '', component: HomePageComponent,pathMatch:'full'
       }]},
-    {path: 'about', component: AboutPageComponent},
+    {path: 'rating', component: AboutPageComponent},
 
   {path: 'profile',loadChildren: () => import('./logged-in/login.module').then(x => x.LoginModule)},
   {path: 'admin',loadChildren: () => import('./auth/admin/admin.module').then(x => x.AdminModule)}

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {PlayerToSend, Score, ScoreToSend, Tile} from "../../shared/interfaces";
+import {PlayerToSend, Rating, Score, ScoreToSend, Tile} from "../../shared/interfaces";
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +10,7 @@ export class GameApiService {
 
   private readonly gameUrl = 'http://localhost:8080/api/game'
   private readonly scoreUrl = 'http://localhost:8080/api/scores'
+  private readonly ratingUrl = 'http://localhost:8080/api/rating'
 
   constructor(private http: HttpClient) { }
 
@@ -53,6 +54,14 @@ export class GameApiService {
   postReplayedArray(array: string[][]):Observable<any>{
     const wrapper = { array: array };
     return this.http.post(`${this.gameUrl}/regenerate-field`,wrapper)
+  }
+
+  getSortedRating():Observable<any>{
+    return this.http.get(`${this.ratingUrl}/sort-rating`)
+  }
+
+  getSortedScores():Observable<any>{
+    return this.http.get(`${this.scoreUrl}/sort-score`)
   }
 
 }

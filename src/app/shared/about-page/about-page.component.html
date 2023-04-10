@@ -1,3 +1,28 @@
-<h1>Page works</h1>
+<div class="players-container">
+  <div class="players-list">
+    <h2>Top Players:</h2>
+    <ul>
+      <li *ngFor="let player of rating">{{ player.username }}</li>
+    </ul>
+  </div>
+  <div class="scores-list">
+    <h2>Points</h2>
+    <ul>
+      <li *ngFor="let rating of rating">{{ rating.points }}</li>
+    </ul>
+  </div>
+  <div class="players-list">
+    <h2>Player:</h2>
+    <ul>
+      <li *ngFor="let player of scores">{{ player.username }}</li>
+    </ul>
+  </div>
+  <div class="scores-list">
+    <h2>Max Points</h2>
+    <ul>
+      <li *ngFor="let score of scores">{{ score.points }}</li>
+    </ul>
+  </div>
+</div>
 
-<button class="btn" (click)="getPeople()">Click</button>
+

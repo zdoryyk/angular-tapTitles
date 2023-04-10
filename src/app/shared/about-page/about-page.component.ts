@@ -1,26 +1,27 @@
-import { Component } from '@angular/core';
-import {ApiService} from "../../logged-in/api.service";
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../auth/auth.service";
+import {GameApiService} from "../../logged-in/game-page/game-api.service";
+import {firstValueFrom} from "rxjs";
 
 @Component({
   selector: 'app-about-page',
   templateUrl: './about-page.component.html',
   styleUrls: ['./about-page.component.scss']
 })
-export class AboutPageComponent {
+export class AboutPageComponent implements OnInit{
 
-
-  constructor(private api: ApiService,private authService: AuthService) {
+  rating: any
+  scores: any
+  constructor(private authService: AuthService,private gameApi: GameApiService) {
 
   }
+   async ngOnInit() {
 
-  test(){
-    console.log(this.authService.token);
+     this.rating = await firstValueFrom(this.gameApi.getSortedRating())
+     this.rating = this.rating.slice(0.5)
+
+     this.scores = await firstValueFrom(this.gameApi.getSortedScores())
+     this.scores = this.scores.slice(0,5)
   }
 
-  getPeople() {
-    this.api.getAllUsers().subscribe(response =>{
-      console.log(response)
-    })
-  }
 }

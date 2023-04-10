@@ -35,13 +35,6 @@ export class ApiService {
     return this.http.post<Player>(`${this.API_USERS}/user/email`,playerToSend)
   }
 
-  getUserById(id: number): Observable<Player>{
-    let playerToSend: PlayerToSend = {
-      id: id
-    }
-    return this.http.post<Player>(`${this.API_USERS}/user/id`,playerToSend)
-  }
-
   deleteUser(email: string): Observable<any> {
     let playerToSend: PlayerToSend = {
       email: email
