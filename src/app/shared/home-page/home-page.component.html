@@ -1,0 +1,22 @@
+<body>
+<main>
+  <h1>Welcome to the Tap Titles</h1>
+  <p>Created by Danil Zdoryk 2023. Student of Technical University in Kosice </p>
+  <p  *ngIf="!(auth.isLoggedIn$ | async)">To play and get points and rating you need to login or register</p>
+  <button
+    *ngIf="!(auth.isLoggedIn$ | async)"
+    routerLinkActive="active"
+    class="btn"
+    [routerLink]="['/profile/login']"
+  >Login</button>
+  <button
+    *ngIf="!(auth.isLoggedIn$ | async)"
+    routerLinkActive="active"
+    class="btn"
+    [routerLink]="['/profile/register']"
+  >Register</button>
+</main>
+</body>
+<footer>
+  <p>Tap Titles &copy; 2023</p>
+</footer>
