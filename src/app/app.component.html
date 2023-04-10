@@ -1,4 +1,3 @@
-
 <nav class="navbar">
   <h1>
     <a [routerLink]="['/']" [@tapTitleTrigger]="shimmer">Tap Titles</a>
@@ -14,9 +13,8 @@
   </ul>
 </nav>
 <router-outlet></router-outlet>
-
 <ng-template #Login>
-  <li><button routerLinkActive="active" class="btn" [routerLink]="['/profile']">Login</button></li>
+  <li><button routerLinkActive="active" class="btn" [routerLink]="['/profile/login']">Login</button></li>
 </ng-template>
 
 

@@ -22,6 +22,8 @@ import {
   SocialAuthServiceConfig,
   SocialLoginModule
 } from "@abacritt/angularx-social-login";
+import { HomePageComponent } from './shared/home-page/home-page.component';
+import {NgOptimizedImage} from "@angular/common";
 
 export function tokenGetter() {
   return localStorage.getItem("auth");
@@ -35,26 +37,28 @@ export function tokenGetter() {
     LoginPageComponent,
     RegisterPageComponent,
     AdminLayoutComponent,
+    HomePageComponent,
   ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    RouterOutlet,
-    AppRoutingModule,
-    RouterLink,
-    BrowserAnimationsModule,
-    SocialLoginModule,
-    JwtModule.forRoot({
-      config: {
-        tokenGetter: tokenGetter,
-        allowedDomains: ["localhost:8080"]
-      },
-    }),
-    GoogleSigninButtonModule,
-  ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        ReactiveFormsModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        RouterOutlet,
+        AppRoutingModule,
+        RouterLink,
+        BrowserAnimationsModule,
+        SocialLoginModule,
+        JwtModule.forRoot({
+            config: {
+                tokenGetter: tokenGetter,
+                allowedDomains: ["localhost:8080"]
+            },
+        }),
+        GoogleSigninButtonModule,
+        NgOptimizedImage,
+    ],
   providers: [{
     provide:HTTP_INTERCEPTORS,
     useClass:AuthInterceptor,

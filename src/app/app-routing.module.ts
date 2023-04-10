@@ -3,14 +3,15 @@ import { CommonModule } from '@angular/common';
 import {RouterModule, Routes} from "@angular/router";
 import {MainLayoutComponent} from "./shared/main-layout/main-layout.component";
 import {AboutPageComponent} from "./shared/about-page/about-page.component";
-import {GamePageComponent} from "./logged-in/game-page/game-page.component";
-import {LoginPageComponent} from "./auth/login-page/login-page.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {RegisterPageComponent} from "./auth/register-page/register-page.component";
-import {AppComponent} from "./app.component";
-import {ProfileComponent} from "./logged-in/profile/profile.component";
+import {HomePageComponent} from "./shared/home-page/home-page.component";
+
+
+
 const routes: Routes = [
-    {path: '', component: MainLayoutComponent},
+    {path: '', component: MainLayoutComponent,children: [{
+        path: '', component: HomePageComponent,pathMatch:'full'
+      }]},
     {path: 'about', component: AboutPageComponent},
 
   {path: 'profile',loadChildren: () => import('./logged-in/login.module').then(x => x.LoginModule)},
