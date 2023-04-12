@@ -1,14 +1,10 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {async, BehaviorSubject, catchError, Observable, Subject, tap, throwError} from "rxjs";
+import {BehaviorSubject, catchError, Observable, Subject, tap, throwError} from "rxjs";
 import {Player} from "../shared/interfaces";
 import {ApiService} from "../logged-in/api.service";
 import {Router} from "@angular/router";
 import { JwtHelperService } from '@auth0/angular-jwt';
-import {ProfileComponent} from "../logged-in/profile/profile.component";
-import {AppRoutingModule} from "../app-routing.module";
-import {LoginModule} from "../logged-in/login.module";
-import {ERROR} from "@angular/compiler-cli/src/ngtsc/logging/src/console_logger";
 
 
 @Injectable({

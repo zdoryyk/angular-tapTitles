@@ -61,9 +61,7 @@ export class GameService {
     }
 
     regenerateField(array: string[][]){
-      this.api.postReplayedArray(array).subscribe(response => {
-        console.log(response)
-      })
+      this.api.postReplayedArray(array)
     }
 
     isGameActive(board: Tile[][]): boolean{

@@ -56,6 +56,9 @@
             </div>
             <div *ngIf="scores.length">
               <h1>Scores</h1>
+              <button *ngIf="!isHidden" class="btn btn-light"><p (click)="hide()">hide</p></button>
+              <button *ngIf="isHidden" class="btn btn-light"><p (click)="hide()">show</p></button>
+              <ng-container *ngIf="!isHidden">
               <div class="post" *ngFor="let score of scores">
                 <hr>
                 <div class="header">
@@ -67,6 +70,7 @@
                   <p>score: {{score.points}}</p>
                 </div>
               </div>
+              </ng-container>
             </div>
 <!--            COMMENTS-->
             <div *ngIf="comments.length">

@@ -47,17 +47,21 @@
             </div>
             <div *ngIf="scores.length">
               <h1>Scores</h1>
-              <div class="post" *ngFor="let score of scores">
-                <hr>
-                <div class="header">
+              <button *ngIf="!isHidden" class="btn btn-light"><p (click)="hide()">hide</p></button>
+              <button *ngIf="isHidden" class="btn btn-light"><p (click)="hide()">show</p></button>
+              <ng-container *ngIf="!isHidden">
+                <div class="post" *ngFor="let score of scores">
+                  <hr>
+                  <div class="header">
+                  </div>
+                  <div class="info" >
+                    <small>{{score.playedOn | date}}</small>
+                  </div>
+                  <div>
+                    <p>score: {{score.points}}</p>
+                  </div>
                 </div>
-                <div class="info" >
-                  <small>{{score.playedOn | date}}</small>
-                </div>
-                <div>
-                  <p>score: {{score.points}}</p>
-                </div>
-              </div>
+              </ng-container>
             </div>
             <!--            COMMENTS-->
             <div *ngIf="comments.length">

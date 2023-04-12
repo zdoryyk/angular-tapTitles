@@ -72,7 +72,6 @@ export class RegisterPageComponent implements OnInit,OnDestroy{
   }
 
   submit(){
-    console.log(this.player)
     if(this.isGoogleForm){
       this.player.password = this.form.value.password
       this.authService.register(this.player)
@@ -90,4 +89,5 @@ export class RegisterPageComponent implements OnInit,OnDestroy{
     this.notifier.next(false)
     this.notifier.complete()
   }
+
 }

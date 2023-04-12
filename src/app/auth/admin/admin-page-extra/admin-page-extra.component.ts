@@ -28,18 +28,20 @@ export class AdminPageExtraComponent implements OnInit{
   scores: Score[] = []
   rating: Rating
   comments: Comment[] = []
+  isHidden: boolean = false;
 
 
   constructor(private authService:AuthService,private apiService: ApiService,private router: Router,private linkService: LinkService) {
 
   }
 
-
-
   ngOnInit(): void {
     this.setPlayer()
   }
 
+  hide(){
+    this.isHidden = !this.isHidden
+  }
 
   setPlayer() {
     this.apiService.getUserByEmail(this.linkService.returnUser()).subscribe((response:any) => {

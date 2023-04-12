@@ -22,7 +22,7 @@ export class ProfileComponent implements OnInit{
   scores: Score[] = []
   rating: Rating
   comments: Comment[] = []
-
+  isHidden = false
 
   constructor(private authService:AuthService,
               private apiService: ApiService,
@@ -54,7 +54,8 @@ export class ProfileComponent implements OnInit{
     this.router.navigate(['admin'])
   }
 
-  routeToLogin() {
-    this.router.navigate(['/profile/login'])
+  hide(){
+    this.isHidden = !this.isHidden
   }
+
 }

@@ -5,7 +5,6 @@ import {Player} from "../../shared/interfaces";
 import {Router} from "@angular/router";
 import {BehaviorSubject, Subject, Subscription, take, tap} from "rxjs";
 import {SocialAuthService} from "@abacritt/angularx-social-login";
-import { Observable, interval } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -39,6 +38,7 @@ export class LoginPageComponent implements OnInit,OnDestroy{
             email: ""
           }
         }
+        console.log('user', this.user)
         this.user.email = response.email
         this.googleSubmit()
       })
@@ -67,9 +67,9 @@ export class LoginPageComponent implements OnInit,OnDestroy{
     this.router.navigate(['profile/register'])
   }
 
-  ngOnDestroy(): void {
-    this.notifier.next(false)
-    this.notifier.complete()
+  async ngOnDestroy() {
+    await this.notifier.next(false)
+    await this.notifier.complete()
   }
 
 }

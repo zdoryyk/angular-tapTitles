@@ -13,15 +13,15 @@ export class AboutPageComponent implements OnInit{
   rating: any
   scores: any
   constructor(private authService: AuthService,private gameApi: GameApiService) {
-
   }
    async ngOnInit() {
-
      this.rating = await firstValueFrom(this.gameApi.getSortedRating())
-     this.rating = this.rating.slice(0.5)
-
+     this.rating = this.rating.slice(0,5)
      this.scores = await firstValueFrom(this.gameApi.getSortedScores())
      this.scores = this.scores.slice(0,5)
+     this.gameApi.getSortedRating().subscribe(response => {
+       console.log(response)
+     })
   }
 
 }

@@ -61,7 +61,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let score of scores.reverse()">
+    <tr *ngFor="let score of scores.reverse().slice(0,5)">
       <td>You</td>
       <td>{{score.points}}</td>
       <td>{{score.playedOn | date}}</td>
