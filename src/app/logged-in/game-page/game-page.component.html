@@ -1,11 +1,14 @@
 <div class="game-container">
   <div class="game-board">
     <div class="game-buttons">
-      <button class="game-button" (click)="onReplay()" >
+      <button *ngIf="showGameUtils" class="game-button" (click)="onReplay()">
         Replay
       </button>
-      <button class="game-button" (click)="onUndo()">
+      <button *ngIf="showGameUtils" class="game-button" (click)="onUndo()">
         Undo
+      </button>
+      <button class="game-button" (click)="onSave()">
+        Save
       </button>
     </div>
 

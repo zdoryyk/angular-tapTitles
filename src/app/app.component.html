@@ -9,6 +9,7 @@
     <li *ngIf="auth.isLoggedIn$ | async"><a  routerLinkActive="active"  [routerLink]= "['/profile']">Profile</a></li>
     <li *ngIf="auth.isLoggedIn$ | async"><a  routerLinkActive="active"  [routerLink]= "['/profile/game']"> Game</a></li>
     <li><a  routerLinkActive="active"  [routerLink]= "['/rating']">Rating</a></li>
+    <li><a  routerLinkActive="active"  [routerLink]= "['/reviews']">Reviews</a></li>
     <li *ngIf="(auth.isLoggedIn$ | async);else Login"><button routerLinkActive="active" class="btn" (click)="logout($event)">Logout</button></li>
   </ul>
 </nav>

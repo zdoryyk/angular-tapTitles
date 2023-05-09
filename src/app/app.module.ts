@@ -24,6 +24,7 @@ import {
 } from "@abacritt/angularx-social-login";
 import { HomePageComponent } from './shared/home-page/home-page.component';
 import {NgOptimizedImage} from "@angular/common";
+import { ReviewsComponent } from './shared/reviews/reviews.component';
 
 export function tokenGetter() {
   return localStorage.getItem("auth");
@@ -38,6 +39,7 @@ export function tokenGetter() {
     RegisterPageComponent,
     AdminLayoutComponent,
     HomePageComponent,
+    ReviewsComponent,
   ],
     imports: [
         BrowserModule,

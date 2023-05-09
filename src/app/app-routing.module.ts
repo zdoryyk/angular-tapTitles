@@ -5,6 +5,7 @@ import {MainLayoutComponent} from "./shared/main-layout/main-layout.component";
 import {AboutPageComponent} from "./shared/about-page/about-page.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HomePageComponent} from "./shared/home-page/home-page.component";
+import {ReviewsComponent} from "./shared/reviews/reviews.component";
 
 
 
@@ -13,6 +14,7 @@ const routes: Routes = [
         path: '', component: HomePageComponent,pathMatch:'full'
       }]},
     {path: 'rating', component: AboutPageComponent},
+    {path: 'reviews', component: ReviewsComponent},
 
   {path: 'profile',loadChildren: () => import('./logged-in/login.module').then(x => x.LoginModule)},
   {path: 'admin',loadChildren: () => import('./auth/admin/admin.module').then(x => x.AdminModule)}

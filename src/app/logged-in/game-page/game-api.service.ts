@@ -64,4 +64,17 @@ export class GameApiService {
     return this.http.get(`${this.scoreUrl}/sort-score`)
   }
 
+  putSavedGame(array: string[][],id: number,score: number,level: number):Observable<any>{
+    const toSend = {array,id,score,level};
+    return this.http.put(`${this.gameUrl}/save-game`,toSend)
+  }
+
+  getSavedGame(id: number):Observable<any>{
+      return this.http.get<any>(`${this.gameUrl}/saved-game-${id}`)
+  }
+
+  deleteLastGame(id: number):Observable<any>{
+      return this.http.delete(`${this.gameUrl}/delete-game-${id}`)
+  }
+
 }

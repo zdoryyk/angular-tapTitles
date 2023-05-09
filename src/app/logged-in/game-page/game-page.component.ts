@@ -33,14 +33,16 @@ export class GamePageComponent implements OnInit{
   score: number = 0
   scores: Score[]= []
   animationState:string = 'animateTrue'
-  temp: number = -1;
+  temp: number = -1
+  replayedGame = false
+  showGameUtils = true
 
   constructor(private api: GameApiService, private service: GameService,private linkService: LinkService) {
     this.$id = this.linkService.returnUsersId()
   }
 
-  ngOnInit() {
-    this.getBoard(4,4)
+  async ngOnInit() {
+    await this.getBoard(4,4)
     this.getScores().then()
   }
 
@@ -76,6 +78,9 @@ export class GamePageComponent implements OnInit{
       }
 
       if(!this.service.isGameActive(this.board)){
+        if(this.replayedGame){
+          await this.deleteLastGame()
+        }
         let scoreToSend:ScoreToSend = {
           user_id: this.$id,
           points: this.score
@@ -86,35 +91,43 @@ export class GamePageComponent implements OnInit{
     }
   }
 
-  getBoard(columns: number,rows: number) {
+  async getBoard(columns: number,rows: number) {
+
     this.columns = columns
     this.rows = rows
     this.board = []
     this.steps = []
     this.scoreSteps = []
-    this.api.getBoard(columns,rows).subscribe( (response:string[][]) => {
-      this.tempArray = response
-      this.initBoard()
-    })
+
+    if (!this.replayedGame) {
+      let hello = await firstValueFrom(this.api.getSavedGame(this.$id))
+      if (hello != null) {
+        let tmp = hello.array
+
+        if (tmp != null) {
+            this.showGameUtils = false
+            this.replayedGame = true
+            this.columns = tmp[0].length;
+            this.rows = tmp.length;
+            this.tempArray = tmp
+            await this.onReplay()
+            this.score = await hello.score
+            this.level = await hello.level
+        }
+      } else {
+            this.api.getBoard(columns, rows).subscribe((response: string[][]) => {
+            this.tempArray = response
+            this.initBoard()
+        })
+      }
+    }else {
+          this.api.getBoard(columns, rows).subscribe((response: string[][]) => {
+          this.tempArray = response
+          this.initBoard()
+      })
+    }
   }
 
-  getTileStyles(tile: any): any {
-    const styles: any = {};
-
-    if (tile.activated) {
-      styles['background-color'] = '#FF5C5C';
-    } else if (tile.highlighted) {
-      styles['background-color'] = '#FF9999';
-    } else {
-      styles['background-color'] = null;
-    }
-
-    if (tile.color) {
-      styles['color'] = tile.color;
-    }
-
-    return styles;
-  }
 
    async getScores() {
     this.scores = await this.service.getUserScores(this.$id)
@@ -149,25 +162,33 @@ export class GamePageComponent implements OnInit{
       this.initBoard()
    }
 
-  getLevel(level: number){
+
+  async onSave() {
+    this.service.saveGame(this.board,this.$id,this.score,this.level)
+  }
+
+  async getLevel(level: number){
+
     this.level = level
+    this.showGameUtils = true
     switch (level){
-      case 1: this.getBoard(4,4)
+      case 1: await this.getBoard(4, 4)
         break
-      case 2: this.getBoard(6,6)
+      case 2: await this.getBoard(6, 6)
         break
-      case 3: this.getBoard(8,8)
+      case 3: await this.getBoard(8, 8)
         break
-      case 4: this.getBoard(8,12)
+      case 4: await this.getBoard(8, 12)
         break
-      case 5: this.getBoard(8,17)
+      case 5: await this.getBoard(8, 17)
         break
-      default: this.getBoard(8,17)
+      default: await this.getBoard(8, 17)
     }
   }
 
   onMouseOver(tile: Tile) {
     tile.highlighted = true;
+    console.log(tile)
     this.board.flat().flatMap(x => x.value == tile.value ? x.highlighted = true: false)
   }
 
@@ -197,6 +218,9 @@ export class GamePageComponent implements OnInit{
           disabled:false,
           x: i, y: j
         };
+        if(this.board[i][j].value == ' '){
+            this.board[i][j].disabled = true
+        }
       }
     }
     this.score = 0;
@@ -242,6 +266,29 @@ export class GamePageComponent implements OnInit{
       styles['height'] = '70px';
     }
     return styles;
+  }
+
+  getTileStyles(tile: any): any {
+    const styles: any = {};
+
+    if (tile.activated) {
+      styles['background-color'] = '#FF5C5C';
+    } else if (tile.highlighted) {
+      styles['background-color'] = '#FF9999';
+    } else {
+      styles['background-color'] = null;
+    }
+
+    if (tile.color) {
+      styles['color'] = tile.color;
+    }
+
+    return styles;
+  }
+
+  async deleteLastGame(){
+    await this.api.deleteLastGame(this.$id).subscribe(x => {})
+    this.replayedGame = false
   }
 
 }

@@ -61,7 +61,17 @@ export class GameService {
     }
 
     regenerateField(array: string[][]){
-      this.api.postReplayedArray(array)
+      this.api.postReplayedArray(array).subscribe(x => {})
+    }
+
+
+    saveGame(array: Tile[][],id: number,scores: number,level: number){
+      const tmp: string[][] = array.map((row) =>
+        row.map((tile) => tile.value));
+
+        this.api.putSavedGame(tmp,id,scores,level).subscribe(x => {
+
+        })
     }
 
     isGameActive(board: Tile[][]): boolean{

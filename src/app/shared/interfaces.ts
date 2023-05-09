@@ -58,3 +58,10 @@ export interface Tiles{
   secondTile: Tile
 }
 
+
+export interface Review {
+
+  name: string,
+  comment: string,
+
+}

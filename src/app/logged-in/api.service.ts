@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Player, PlayerToSend} from "../shared/interfaces";
+import {Player, PlayerToSend, Review} from "../shared/interfaces";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 
@@ -10,8 +10,9 @@ import {Observable} from "rxjs";
 export class ApiService {
 
   player: Player
-  private AUTH_PAGE = 'http://localhost:8080/api/auth'
-  private API_USERS = 'http://localhost:8080/api/users'
+  private readonly AUTH_PAGE = 'http://localhost:8080/api/auth'
+  private readonly API_USERS = 'http://localhost:8080/api/users'
+  private readonly COMMENT_API = 'http://localhost:8080/api/comment'
 
   constructor(private http: HttpClient) { }
 
@@ -40,6 +41,15 @@ export class ApiService {
       email: email
     }
     return this.http.delete(`${this.API_USERS}/user/delete`, { body: playerToSend });
+  }
+
+
+  addComment(comment: Review){
+    return this.http.post(`${this.COMMENT_API}/create`,comment).subscribe()
+  }
+
+  getComments(){
+    return this.http.get<Review[]>(`${this.COMMENT_API}/get-all`)
   }
 
 }
